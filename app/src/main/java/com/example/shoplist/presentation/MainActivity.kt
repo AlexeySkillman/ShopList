@@ -14,25 +14,30 @@ import com.example.shoplist.databinding.ActivityMainBinding
 import com.example.shoplist.databinding.ItemShopEnabledBinding
 import com.example.shoplist.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var shopListAdapter: ShopListAdapter // совпадали имена и из-за этого был баг Изменил переменую
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
-    // private var shopItemContainer: FragmentContainerView? = null
+    private val component by lazy {
+        (application as ShopListApp).component
+    }
+
+    private lateinit var shopListAdapter: ShopListAdapter // совпадали имена и из-за этого был баг Изменил переменую
 
     private lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupRecyclerView()
-        viewModel = ViewModelProvider( this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider( this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.shopList.observe(this){
             shopListAdapter.submitList(it)
         }
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         with(binding.rvShopList){
             shopListAdapter = ShopListAdapter()
             adapter = shopListAdapter // совпадали имена и из-за этого был баг
-            // set max pools for bufer
+            // set max pools for buffer
             recycledViewPool.setMaxRecycledViews(ShopListAdapter.VIEW_TYPE_ENABLED, ShopListAdapter.MAX_POOL_SIZE)
             recycledViewPool.setMaxRecycledViews(ShopListAdapter.VIEW_TYPE_DISABLED, ShopListAdapter.MAX_POOL_SIZE)
         }

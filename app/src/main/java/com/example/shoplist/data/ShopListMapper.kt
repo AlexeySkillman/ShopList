@@ -1,10 +1,11 @@
 package com.example.shoplist.data
 
 import com.example.shoplist.domain.ShopItem
+import javax.inject.Inject
 
 // Чтлбы трасформировать данные
 
-class ShopListMapper {
+class ShopListMapper @Inject constructor() {
     fun mapEntityToDbModel(shopItem: ShopItem) = ShopItemDbModel (
             id = shopItem.id,
             name = shopItem.name,
