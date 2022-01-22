@@ -6,10 +6,13 @@ import com.example.shoplist.domain.AddShopItemUseCase
 import com.example.shoplist.domain.EditShopItemUseCase
 import com.example.shoplist.domain.GetShopItemUseCase
 import com.example.shoplist.domain.ShopItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
+
+@HiltViewModel
 class ShopItemViewModel @Inject constructor(
     private val getShopItemUseCase: GetShopItemUseCase,
     private val addShopItemUseCase: AddShopItemUseCase,

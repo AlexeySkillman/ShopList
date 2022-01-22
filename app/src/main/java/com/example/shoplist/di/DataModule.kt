@@ -4,23 +4,26 @@ import android.app.Application
 import com.example.shoplist.data.AppDatabase
 import com.example.shoplist.data.ShopListDao
 import com.example.shoplist.data.ShopListRepositoryImpl
-import com.example.shoplist.di.annotations.ApplicationScope
 import com.example.shoplist.domain.ShopListRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 interface DataModule {
 
+    @Singleton
     @Binds
-    @ApplicationScope
     fun bindShopListRepository(impl: ShopListRepositoryImpl): ShopListRepository
 
     companion object{
 
+        @Singleton
         @Provides
-        @ApplicationScope
         fun provideCoinInfoDao(
             application: Application
         ): ShopListDao {

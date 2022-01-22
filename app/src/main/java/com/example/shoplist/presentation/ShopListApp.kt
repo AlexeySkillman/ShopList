@@ -1,17 +1,7 @@
 package com.example.shoplist.presentation
 
 import android.app.Application
-import com.example.shoplist.di.DaggerApplicationComponent
+import dagger.hilt.android.HiltAndroidApp
 
-class ShopListApp: Application() {
-
-    val component by lazy {
-        DaggerApplicationComponent.factory().create(this)
-    }
-
-//    override fun onCreate() {
-//        component.inject(this)
-//        super.onCreate()
-//    }
-
-}
+@HiltAndroidApp
+class ShopListApp: Application() {}

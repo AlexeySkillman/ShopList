@@ -3,6 +3,7 @@ package com.example.shoplist.presentation
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -14,30 +15,24 @@ import com.example.shoplist.databinding.ActivityMainBinding
 import com.example.shoplist.databinding.ItemShopEnabledBinding
 import com.example.shoplist.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
-    private lateinit var viewModel: MainViewModel
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val component by lazy {
-        (application as ShopListApp).component
-    }
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var shopListAdapter: ShopListAdapter // совпадали имена и из-за этого был баг Изменил переменую
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupRecyclerView()
-        viewModel = ViewModelProvider( this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.shopList.observe(this){
             shopListAdapter.submitList(it)
         }

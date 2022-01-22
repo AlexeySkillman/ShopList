@@ -6,9 +6,11 @@ import com.example.shoplist.domain.DeleteShopItemUseCase
 import com.example.shoplist.domain.EditShopItemUseCase
 import com.example.shoplist.domain.GetShopListUseCase
 import com.example.shoplist.domain.ShopItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     getShopListUseCase: GetShopListUseCase,
     private val deleteShopItemUseCase: DeleteShopItemUseCase,
